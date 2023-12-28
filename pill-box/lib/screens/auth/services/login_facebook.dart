@@ -1,0 +1,25 @@
+import 'package:flybuy/constants/strings.dart';
+import 'package:flybuy/utils/debug.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+mixin FacebookLoginMixin<T extends StatefulWidget> on State<T> {
+  Future loginFacebook(Function? login) async {
+    try {
+      // by default the login method has the next permissions ['email','public_profile']
+      final LoginResult result = await FacebookAuth.instance.login();
+
+      if (result.status == LoginStatus.success) {
+        login!({
+          'type': Strings.loginFacebook,
+          'token': result.accessToken!.token,
+        });
+      } else {
+        avoidPrint(result.status);
+        avoidPrint(result.message);
+      }
+    } catch (e) {
+      avoidPrint(e);
+    }
+  }
+}

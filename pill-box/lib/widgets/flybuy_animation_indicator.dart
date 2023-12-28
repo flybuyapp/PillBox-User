@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+
+enum FlybuyAnimationIndicatorType { circle, line }
+
+class FlybuyAnimationIndicator extends StatefulWidget {
+  final double value;
+  final Color? color;
+  final Color? indicatorColor;
+  final Duration? duration;
+
+  /// use when [type = FlybuyAnimationIndicatorType.circle]
+  final double? size;
+  final double? strokeWidth;
+
+  /// use when [type = FlybuyAnimationIndicatorType.line]
+  final double? radiusStrokeWidth;
+  final FlybuyAnimationIndicatorType type;
+
+  const FlybuyAnimationIndicator({
+    Key? key,
+    this.value = 1,
+    this.color,
+    this.indicatorColor,
+    this.duration,
+    this.size,
+    this.strokeWidth,
+    this.radiusStrokeWidth,
+    this.type = FlybuyAnimationIndicatorType.line,
+  })  : assert(value >= 0 && value <= 1),
+        super(key: key);
+
+  @override
+  State<FlybuyAnimationIndicator> createState() =>
+      _FlybuyAnimationIndicatorState();
+}
+
+class _FlybuyAnimationIndicatorState extends State<FlybuyAnimationIndicator>
+    with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    double valueTo = widget.value;
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..addListener(() {
+        setState(() {});
+      });
+    controller.animateTo(valueTo);
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant FlybuyAnimationIndicator oldWidget) {
+    if (oldWidget.value != widget.value) {
+      return change(widget.value);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void change(double value) {
+    controller.animateTo(value);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    switch (widget.type) {
+      case FlybuyAnimationIndicatorType.circle:
+        double size = widget.size ?? 72;
+        double strokeWidth = widget.strokeWidth ?? 5;
+        return SizedBox(
+          width: size,
+          height: size,
+          child: CircularProgressIndicator(
+            value: controller.value,
+            backgroundColor: widget.color ?? theme.dividerColor,
+            color: widget.indicatorColor ?? theme.primaryColor,
+            strokeWidth: strokeWidth,
+          ),
+        );
+      default:
+        double strokeWidth = widget.strokeWidth ?? 6;
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(
+              widget.radiusStrokeWidth ?? strokeWidth / 2),
+          child: SizedBox(
+            height: strokeWidth,
+            child: LinearProgressIndicator(
+              value: controller.value,
+              backgroundColor: widget.color ?? theme.dividerColor,
+              color: widget.indicatorColor ?? theme.primaryColor,
+            ),
+          ),
+        );
+    }
+  }
+}
