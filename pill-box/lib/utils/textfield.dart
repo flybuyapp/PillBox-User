@@ -10,7 +10,7 @@ class TextFieldWidget extends StatelessWidget {
       this.inputFormatters,
       this.validator,
       this.label,
-      this.inputType = TextInputType.name,
+      required this.inputType,
       this.inputAction = TextInputAction.next,
       this.secure = false})
       : super(key: key);
@@ -43,6 +43,7 @@ class TextFieldWidget extends StatelessWidget {
             inputFormatters: inputFormatters,
             validator: validator,
             textAlignVertical: TextAlignVertical.center,
+            keyboardType: inputType,
             decoration: InputDecoration(
                 labelStyle: TextStyle(
                     color: Theme.of(context)

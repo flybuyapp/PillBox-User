@@ -19,6 +19,7 @@ import 'package:flybuy/widgets/builder/youtube/youtube.dart';
 import 'package:flybuy/widgets/flybuy_appbar.dart';
 import 'package:flybuy/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 import 'banner/banner.dart';
 import 'brand/brand.dart';
@@ -246,7 +247,7 @@ class Widgets {
               ),
               //NGD
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.48,//NGD
+                width: MediaQuery.of(context).size.width * 0.48, //NGD
                 child: ProductSearchWidget(
                   widgetConfig: setWid!["product-search_1618808108765_71mhop"],
                 ),
@@ -265,7 +266,7 @@ class Widgets {
             ),
             //NGD
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.61,//NGD
+              width: MediaQuery.of(context).size.width * 0.61, //NGD
               child: ProductSearchWidget(
                 widgetConfig: setWid!["product-search_1618808108765_71mhop"],
               ),
@@ -274,16 +275,16 @@ class Widgets {
           break;
         case 'location':
           title = _LocationButton(
-              color: type == Strings.appbarFixed && isScrolledToTop
-                  ? iconAppbarColorOnTop
-                  : textStyle?.color,
-          widgets: setWid,
+            color: type == Strings.appbarFixed && isScrolledToTop
+                ? iconAppbarColorOnTop
+                : textStyle?.color,
+            widgets: setWid,
           );
           break;
-          //NGD
+        //NGD
         case 'none':
-          title =  SizedBox(
-            width: MediaQuery.of(context).size.width * 0.65,//NGD
+          title = SizedBox(
+            width: MediaQuery.of(context).size.width * 0.65, //NGD
             child: ProductSearchWidget(
               widgetConfig: setWid!["product-search_1618808108765_71mhop"],
             ),
@@ -301,7 +302,7 @@ class Widgets {
               ? FlybuyCacheImage(
                   logo,
                   width: logoWidth,
-                  height:logoHeight,
+                  height: logoHeight,
                   fit: BoxFit.contain,
                 )
               : Text(TextDynamic.getTextDynamic(context, text: logoText))
@@ -310,14 +311,15 @@ class Widgets {
                   color: type == Strings.appbarFixed && isScrolledToTop
                       ? iconAppbarColorOnTop
                       : textStyle?.color,
-      widgets: setWid,
-      )
-              :  SizedBox(
-        width: MediaQuery.of(context).size.width * 0.68,//NGD
-        child: ProductSearchWidget(
-          widgetConfig: setWid!["product-search_1618808108765_71mhop"],
-        ),
-      );
+                  widgets: setWid,
+                )
+              : SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.68, //NGD
+                  child: ProductSearchWidget(
+                    widgetConfig:
+                        setWid!["product-search_1618808108765_71mhop"],
+                  ),
+                );
     }
 
     // ==== Actions
@@ -383,7 +385,7 @@ class Widgets {
           color: appbarColorOnTop,
           isScrolledToTop: isScrolledToTop,
           child: AppBar(
-            automaticallyImplyLeading: false,//NGD
+            automaticallyImplyLeading: false, //NGD
             iconTheme: isScrolledToTop
                 ? IconThemeData(color: iconAppbarColorOnTop)
                 : Theme.of(context).appBarTheme.iconTheme,
@@ -403,7 +405,7 @@ class Widgets {
           floating: type == Strings.appbarFloating,
           elevation: 0,
           primary: true,
-          automaticallyImplyLeading: false,//NGD
+          automaticallyImplyLeading: false, //NGD
           centerTitle: centerTitle,
           title: title,
           leading: enableSidebar! ? leading : null,
@@ -614,10 +616,62 @@ class Widgets {
   }
 }
 
+Widget healthContainer(String title, String image, String fdesc, String sdesc) {
+  return Container(
+    width: 17.h,
+    height: 20.h,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(3.h),
+            topRight: Radius.circular(3.h),
+            topLeft: Radius.circular(3.h),
+            bottomRight: Radius.circular(3.h)),
+        color: Colors.white),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                width: 2.w,
+              ),
+              Text(
+                title,
+                style: TextStyle(color: Color(0xffCC197D), fontSize: 18),
+              )
+            ],
+          ),
+          SizedBox(
+              height: 7.4.h,
+              child: Center(
+                child: Image.asset(image),
+              )),
+          Text(
+            fdesc,
+            style: TextStyle(
+                color: Color(0xffCC197D),
+                fontSize: 18,
+                fontWeight: FontWeight.w600),
+          ),
+          Text(
+            sdesc,
+            style: TextStyle(
+              color: Color(0xffCC197D),
+              fontSize: 18,
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
 class _LocationButton extends StatelessWidget {
   final Color? color;
   final Map<String, WidgetConfig>? widgets;
-  const _LocationButton({Key? key, this.color,this.widgets}) : super(key: key);
+  const _LocationButton({Key? key, this.color, this.widgets}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -647,7 +701,7 @@ class _LocationButton extends StatelessWidget {
               ),
               //NGD
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.68,//NGD
+                width: MediaQuery.of(context).size.width * 0.68, //NGD
                 child: ProductSearchWidget(
                   widgetConfig: widgets!["product-search_1618808108765_71mhop"],
                 ),

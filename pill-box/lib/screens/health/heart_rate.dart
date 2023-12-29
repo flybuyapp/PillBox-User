@@ -187,6 +187,15 @@ class _HeartRateCalculatorState extends State<HeartRateCalculator> {
                   'Ensure that place your finger on torch and camera before starting. To save heart beat, click on Save.',
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
             ),
+            // toggled
+            //     ? HeartBPMDialog(
+            //         context: context,
+            //         showTextValues: false,
+            //         borderRadius: 10,
+            //         onRawData: (value) {},
+            //         onBPM: (value) => setState(() {}),
+            //       )
+            //     : SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: Row(

@@ -196,6 +196,8 @@ dependencies:
   sliver_tools: ^0.2.8
   heart_bpm: ^2.0.0+0
   camera: ^0.10.5+7
+  circular_chart_flutter: ^0.0.2
+  location: ^5.0.3
 
   # Chat GPT
   chat_gpt:

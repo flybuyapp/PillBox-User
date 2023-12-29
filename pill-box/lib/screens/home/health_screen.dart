@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flybuy/screens/health/heart_rate.dart';
 import 'package:flybuy/screens/health/index.dart';
 import 'package:flybuy/screens/health/pill_reminders.dart';
+import 'package:flybuy/screens/health/sleep_tracker/home_screen.dart';
+import 'package:flybuy/widgets/builder/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,6 +25,17 @@ class _HealthScreenState extends State<HealthScreen> {
   List<CameraDescription> cameras = [];
   String bpm = '';
   late SettingStore _settingStore;
+  List<Widget> containerList = [];
+
+  List<String> title = ["Heart Rate", "Pill Reminder", "Sleep"];
+  List<String> images = [
+    "assets/images/heart.png",
+    "assets/images/meds.png",
+    "assets/images/sleep.png"
+  ];
+  List<String> fdesc = ['72', "Add", "8/24"];
+  List<String> sdesc = ["BPM", "Medicine", "Hours"];
+  int? ontap;
 
   @override
   void didChangeDependencies() {
@@ -43,6 +56,36 @@ class _HealthScreenState extends State<HealthScreen> {
     // TODO: implement initState
     super.initState();
     getCamera();
+    containerList.add(InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HeartRateCalculator(cameras: cameras))).then((value) {
+            _settingStore.persistHelper.getHeartRate().then((value) {
+              print('object$value');
+              if (value != null) {
+                setState(() {
+                  bpm = value;
+                });
+              }
+            });
+          });
+        },
+        child: healthContainer("Heart Rate", "assets/images/heart.png",
+            bpm.isNotEmpty ? bpm : "72", "BPM")));
+
+    containerList.add(InkWell(
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const HomePage()));
+        },
+        child: healthContainer(
+            "Pill reminder", "assets/images/meds.png", "Add", "Medicine")));
+
+    containerList.add(
+        healthContainer("Sleep", "assets/images/sleep.png", "8/24", "Hours"));
   }
 
   @override
@@ -118,151 +161,121 @@ class _HealthScreenState extends State<HealthScreen> {
                                   fontWeight: FontWeight.w600,
                                   color: Color(0xff8D5F79)),
                             ),
-                            SizedBox(height: 5.h),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HeartRateCalculator(
-                                                        cameras: cameras)))
-                                        .then((value) {
-                                      _settingStore.persistHelper
-                                          .getHeartRate()
-                                          .then((value) {
-                                        print('object$value');
-                                        if (value != null) {
-                                          setState(() {
-                                            bpm = value;
+                            Expanded(
+                              child: GridView.builder(
+                                  itemCount: 3,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 2.w,
+                                    mainAxisSpacing: 2.w,
+                                  ),
+                                  itemBuilder: (context, position) {
+                                    return InkWell(
+                                      onTap: () {
+                                        if (position == 0) {
+                                          Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HeartRateCalculator(
+                                                              cameras:
+                                                                  cameras)))
+                                              .then((value) {
+                                            _settingStore.persistHelper
+                                                .getHeartRate()
+                                                .then((value) {
+                                              print('object$value');
+                                              if (value != null) {
+                                                setState(() {
+                                                  bpm = value;
+                                                });
+                                              }
+                                            });
                                           });
+                                        } else if (position == 1) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const HomePage()));
+                                        } else {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeScreen(),
+                                              ));
                                         }
-                                      });
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 17.h,
-                                    height: 20.h,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(3.h),
-                                            topRight: Radius.circular(3.h),
-                                            topLeft: Radius.circular(3.h),
-                                            bottomRight: Radius.circular(3.h)),
-                                        color: Colors.white),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
+                                      },
+                                      child: Container(
+                                        width: 17.h,
+                                        height: 20.h,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft:
+                                                    Radius.circular(3.h),
+                                                topRight: Radius.circular(3.h),
+                                                topLeft: Radius.circular(3.h),
+                                                bottomRight:
+                                                    Radius.circular(3.h)),
+                                            color: Colors.white),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              SizedBox(
-                                                width: 2.w,
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 2.w,
+                                                  ),
+                                                  Text(
+                                                    title[position],
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xffCC197D),
+                                                        fontSize: 18),
+                                                  )
+                                                ],
                                               ),
-                                              const Text(
-                                                "Heart Rate",
-                                                style: TextStyle(
-                                                    color: Color(0xffCC197D),
-                                                    fontSize: 18),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                              height: 7.4.h,
-                                              child: Center(
-                                                child: Image.asset(
-                                                    "assets/images/heart.png"),
-                                              )),
-                                          Text(
-                                            bpm!.isNotEmpty ? bpm! : "72",
-                                            style: TextStyle(
-                                                color: Color(0xffCC197D),
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          const Text(
-                                            "BPM",
-                                            style: TextStyle(
-                                              color: Color(0xffCC197D),
-                                              fontSize: 18,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const HomePage()));
-                                  },
-                                  child: Container(
-                                    width: 17.h,
-                                    height: 20.h,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(3.h),
-                                            topRight: Radius.circular(3.h),
-                                            topLeft: Radius.circular(3.h),
-                                            bottomRight: Radius.circular(3.h)),
-                                        color: Colors.white),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
+                                              SizedBox(
+                                                  height: 7.4.h,
+                                                  child: Center(
+                                                    child: Image.asset(
+                                                        images[position]),
+                                                  )),
                                               Text(
-                                                "Pill reminder",
+                                                position == 0
+                                                    ? bpm
+                                                    : fdesc[position],
                                                 style: TextStyle(
                                                     color: Color(0xffCC197D),
-                                                    fontSize: 18),
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              Text(
+                                                sdesc[position],
+                                                style: TextStyle(
+                                                  color: Color(0xffCC197D),
+                                                  fontSize: 18,
+                                                ),
                                               )
                                             ],
                                           ),
-                                          SizedBox(
-                                              height: 7.4.h,
-                                              child: Center(
-                                                child: Image.asset(
-                                                    "assets/images/meds.png"),
-                                              )),
-                                          const Text(
-                                            "Add",
-                                            style: TextStyle(
-                                                color: Color(0xffCC197D),
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          const Text(
-                                            "Medicine",
-                                            style: TextStyle(
-                                              color: Color(0xffCC197D),
-                                              fontSize: 18,
-                                            ),
-                                          )
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                                    );
+                                  }),
+                            )
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

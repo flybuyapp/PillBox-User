@@ -44,8 +44,10 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Color(0xffFFECF7),
           leading: Material(
-            color: Colors.transparent,
+            color: Color(0xffFFECF7),
             child: InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
@@ -453,6 +455,7 @@ class _FormPageState extends State<FormPage> {
                   RegExp(r"[0-9]"),
                 )
               ],
+              inputType: TextInputType.number,
               validator: (val) {
                 if (val == null) {
                   return null;
@@ -479,6 +482,7 @@ class _FormPageState extends State<FormPage> {
                   RegExp(r"[0-9]"),
                 )
               ],
+              inputType: TextInputType.number,
               validator: (val) {
                 if (val == null) {
                   return null;
@@ -513,6 +517,7 @@ class _FormPageState extends State<FormPage> {
                 RegExp(r"[0-9]"),
               )
             ],
+            inputType: TextInputType.number,
             validator: (val) {
               if (val == null) {
                 return null;
@@ -550,6 +555,7 @@ class _FormPageState extends State<FormPage> {
                 RegExp(r"[a-zA-Z]+|\s"),
               )
             ],
+            inputType: TextInputType.text,
             validator: (val) {
               if (val == null) {
                 return null;

@@ -37,18 +37,23 @@ class CalendarDelegate extends SliverPersistentHeaderDelegate {
                 Row(
                   children: [
                     RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         style: TextStyle(
                           fontSize: 24,
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'September ',
+                              text: DateFormat('MMMM')
+                                  .format(DateTime.now())
+                                  .toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Colors.black)),
                           TextSpan(
-                              text: '2022',
+                              text: "  ",
+                              style: TextStyle(color: Colors.black)),
+                          TextSpan(
+                              text: DateTime.now().year.toString(),
                               style: TextStyle(color: Colors.black)),
                         ],
                       ),

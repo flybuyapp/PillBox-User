@@ -70,7 +70,7 @@ class TopBar extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Color(0xffCC197D),
+      color: const Color(0xffCC197D),
       width: 150,
       child: Stack(fit: StackFit.expand, children: [
         Positioned(
@@ -80,7 +80,8 @@ class TopBar extends SliverPersistentHeaderDelegate {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Icon(Icons.arrow_back_ios_new, color: Colors.white))),
+                child:
+                    const Icon(Icons.arrow_back_ios_new, color: Colors.white))),
         Positioned(
             left: 15,
             bottom: 40,
@@ -91,10 +92,10 @@ class TopBar extends SliverPersistentHeaderDelegate {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                      text: 'Hello ',
+                      text: 'Add ',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   TextSpan(
-                      text: 'Almas',
+                      text: 'Medicine',
                       style: TextStyle(fontWeight: FontWeight.w500)),
                 ],
               ),
